@@ -1,1 +1,118 @@
-
+{
+    "createdAt": "2025-01-02T15:42:29.936Z",
+    "updatedAt": "2025-01-05T16:11:13.000Z",
+    "id": "RWzRi5t5AcaKPjpP",
+    "name": "Chat with Image",
+    "active": false,
+    "nodes": [
+        {
+            "parameters": {
+                "options": {
+                    "allowFileUploads": true
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+            "typeVersion": 1.1,
+            "position": [
+                0,
+                0
+            ],
+            "id": "641975ed-2430-4324-a352-01dac053aeed",
+            "name": "When chat message received",
+            "webhookId": "067cee8b-187c-48a4-ba18-238abcdc7344"
+        },
+        {
+            "parameters": {
+                "options": {
+                    "passthroughBinaryImages": true
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.7,
+            "position": [
+                220,
+                0
+            ],
+            "id": "c1f56e4d-4447-42bc-8e9e-463d9c119a9d",
+            "name": "AI Agent"
+        },
+        {
+            "parameters": {
+                "model": "llama3.2-vision:latest",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+            "typeVersion": 1,
+            "position": [
+                240,
+                220
+            ],
+            "id": "57825672-de75-4e40-aeaf-2b39b292b29f",
+            "name": "Ollama Chat Model",
+            "credentials": {
+                "ollamaApi": {
+                    "id": "merJBDgvcibOMOIr",
+                    "name": "Ollama Local"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "content": "## Chat with Image\n\nA simple chat allow image as input. Use llama3.2-vision with ollama",
+                "height": 540,
+                "width": 680
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -80,
+                -180
+            ],
+            "id": "42af6e61-283d-4a75-90f9-d93f910bc5ad",
+            "name": "Sticky Note"
+        }
+    ],
+    "connections": {
+        "When chat message received": {
+            "main": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Ollama Chat Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "AI Agent",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "meta": null,
+    "pinData": {},
+    "versionId": "83d50eb5-0160-472b-82b0-d703e81ff1c5",
+    "triggerCount": 0,
+    "tags": [
+        {
+            "createdAt": "2025-01-05T15:55:51.742Z",
+            "updatedAt": "2025-01-05T15:55:51.742Z",
+            "id": "ptawwpty3f4CZA4X",
+            "name": "public"
+        }
+    ],
+    "repo_owner": "neoalienson",
+    "repo_name": "n8n-workflows",
+    "repo_path": "workflows"
+}
