@@ -1,6 +1,6 @@
 {
     "createdAt": "2025-01-05T11:55:26.250Z",
-    "updatedAt": "2025-01-05T16:01:24.000Z",
+    "updatedAt": "2025-01-05T16:04:14.000Z",
     "id": "EqOn19sV4tbEyrds",
     "name": "Back Up Workflows To Github",
     "active": false,
@@ -14,8 +14,8 @@
             "name": "n8n",
             "type": "n8n-nodes-base.n8n",
             "position": [
-                680,
-                1160
+                760,
+                1140
             ],
             "typeVersion": 1,
             "credentials": {
@@ -40,7 +40,7 @@
         },
         {
             "parameters": {
-                "content": "## Backup to GitHub \nThis workflow will backup all instance workflows to GitHub.\n\nThe Repo Owner, Repo Name and Main folder are set using the `Config` node in the subworkflow. ",
+                "content": "## Backup to GitHub \nThis workflow will backup all instance workflows with tag 'public' to GitHub.\n\nThe Repo Owner, Repo Name and Main folder are set using the `Config` node. \n\nCall a workflow to play sound once completed.",
                 "height": 177,
                 "width": 385,
                 "color": 4
@@ -49,8 +49,8 @@
             "name": "Sticky Note1",
             "type": "n8n-nodes-base.stickyNote",
             "position": [
-                420,
-                860
+                520,
+                880
             ],
             "typeVersion": 1
         },
@@ -85,7 +85,7 @@
             "name": "Config",
             "type": "n8n-nodes-base.set",
             "position": [
-                880,
+                940,
                 1140
             ],
             "typeVersion": 3.4
@@ -95,7 +95,7 @@
             "type": "n8n-nodes-base.manualTrigger",
             "typeVersion": 1,
             "position": [
-                420,
+                520,
                 1280
             ],
             "id": "a80abaec-0174-4f2b-b8d7-115eb3157788",
@@ -124,7 +124,7 @@
             "type": "n8n-nodes-base.github",
             "position": [
                 1600,
-                1160
+                1140
             ],
             "typeVersion": 1,
             "credentials": {
@@ -162,7 +162,7 @@
             "type": "n8n-nodes-base.n8nTrigger",
             "typeVersion": 1,
             "position": [
-                420,
+                520,
                 1100
             ],
             "id": "2de51b96-a25b-46cd-86b4-0641edb67ca0",
@@ -198,7 +198,7 @@
             "type": "n8n-nodes-base.if",
             "typeVersion": 2.2,
             "position": [
-                1380,
+                1360,
                 1160
             ],
             "id": "353b2758-0a55-4d58-a794-fc0ca3db5763",
@@ -287,6 +287,13 @@
                         "type": "main",
                         "index": 0
                     }
+                ],
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
                 ]
             ]
         }
@@ -299,7 +306,7 @@
         "templateId": "1534"
     },
     "pinData": {},
-    "versionId": "e1ad9495-4d46-4e76-b87d-24ce173d507e",
+    "versionId": "1f3a1d2d-5991-4eff-a756-6e8e5640f0af",
     "triggerCount": 1,
     "tags": [
         {
