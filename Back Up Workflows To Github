@@ -1,1 +1,315 @@
-
+{
+    "createdAt": "2025-01-05T11:55:26.250Z",
+    "updatedAt": "2025-01-05T16:01:24.000Z",
+    "id": "EqOn19sV4tbEyrds",
+    "name": "Back Up Workflows To Github",
+    "active": false,
+    "nodes": [
+        {
+            "parameters": {
+                "filters": {},
+                "requestOptions": {}
+            },
+            "id": "2b1dd138-7872-42ea-9882-8750ef4cf227",
+            "name": "n8n",
+            "type": "n8n-nodes-base.n8n",
+            "position": [
+                680,
+                1160
+            ],
+            "typeVersion": 1,
+            "credentials": {
+                "n8nApi": {
+                    "id": "2TrMTN5JZQFX7Wez",
+                    "name": "n8n account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "id": "806db72c-c9f6-461d-be1a-1e6867a25382",
+            "name": "Loop Over Items",
+            "type": "n8n-nodes-base.splitInBatches",
+            "position": [
+                1140,
+                1140
+            ],
+            "typeVersion": 3
+        },
+        {
+            "parameters": {
+                "content": "## Backup to GitHub \nThis workflow will backup all instance workflows to GitHub.\n\nThe Repo Owner, Repo Name and Main folder are set using the `Config` node in the subworkflow. ",
+                "height": 177,
+                "width": 385,
+                "color": 4
+            },
+            "id": "9e2412f6-df25-4c12-8faf-0200558b537c",
+            "name": "Sticky Note1",
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                420,
+                860
+            ],
+            "typeVersion": 1
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "8f6d1741-772f-462a-811f-4c334185e4f0",
+                            "name": "repo_owner",
+                            "type": "string",
+                            "value": "=neoalienson"
+                        },
+                        {
+                            "id": "8cac215c-4fd7-422f-9fd2-6b2d1e5e0383",
+                            "name": "repo_name",
+                            "type": "string",
+                            "value": "=n8n-workflows"
+                        },
+                        {
+                            "id": "eee305e9-4164-462a-86bd-80f0d58a31ae",
+                            "name": "repo_path",
+                            "type": "string",
+                            "value": "=workflows"
+                        }
+                    ]
+                },
+                "includeOtherFields": true,
+                "options": {}
+            },
+            "id": "42ad4762-26fb-4686-9016-729e95c95324",
+            "name": "Config",
+            "type": "n8n-nodes-base.set",
+            "position": [
+                880,
+                1140
+            ],
+            "typeVersion": 3.4
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                420,
+                1280
+            ],
+            "id": "a80abaec-0174-4f2b-b8d7-115eb3157788",
+            "name": "When clicking ‘Test workflow’"
+        },
+        {
+            "parameters": {
+                "resource": "file",
+                "operation": "edit",
+                "owner": {
+                    "__rl": true,
+                    "value": "={{ $('Config').item.json.repo_owner }}",
+                    "mode": ""
+                },
+                "repository": {
+                    "__rl": true,
+                    "value": "={{ $('Config').item.json.repo_name }}",
+                    "mode": ""
+                },
+                "filePath": "={{ $json.name }}",
+                "fileContent": "={{ JSON.stringify($json, null, 4) }}",
+                "commitMessage": "update"
+            },
+            "id": "2cb580cb-3347-4eac-b0e0-1acc1d46d997",
+            "name": "Update File",
+            "type": "n8n-nodes-base.github",
+            "position": [
+                1600,
+                1160
+            ],
+            "typeVersion": 1,
+            "credentials": {
+                "githubApi": {
+                    "id": "rU0hexSmpUVlqTYe",
+                    "name": "GitHub account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "workflowId": {
+                    "__rl": true,
+                    "value": "OSGHiaYUILuq0PH7",
+                    "mode": "list",
+                    "cachedResultName": "Play Audio"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.executeWorkflow",
+            "typeVersion": 1.1,
+            "position": [
+                1400,
+                900
+            ],
+            "id": "b315599f-6c3f-40b4-9e57-9861e3a6c7a0",
+            "name": "Play Sound"
+        },
+        {
+            "parameters": {
+                "events": [
+                    "activate"
+                ]
+            },
+            "type": "n8n-nodes-base.n8nTrigger",
+            "typeVersion": 1,
+            "position": [
+                420,
+                1100
+            ],
+            "id": "2de51b96-a25b-46cd-86b4-0641edb67ca0",
+            "name": "n8n Trigger"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 2
+                    },
+                    "conditions": [
+                        {
+                            "id": "20bccf21-8e8a-4dc1-9ca3-0ed64dddb8fc",
+                            "leftValue": "={{ $json.tags[0].name }}",
+                            "rightValue": "public",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals",
+                                "name": "filter.operator.equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {
+                    "ignoreCase": true
+                }
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.2,
+            "position": [
+                1380,
+                1160
+            ],
+            "id": "353b2758-0a55-4d58-a794-fc0ca3db5763",
+            "name": "If"
+        }
+    ],
+    "connections": {
+        "n8n": {
+            "main": [
+                [
+                    {
+                        "node": "Config",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Config": {
+            "main": [
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Loop Over Items": {
+            "main": [
+                [
+                    {
+                        "node": "Play Sound",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "If",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "When clicking ‘Test workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "n8n",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Update File": {
+            "main": [
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "n8n Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "n8n",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "If": {
+            "main": [
+                [
+                    {
+                        "node": "Update File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "meta": {
+        "templateId": "1534"
+    },
+    "pinData": {},
+    "versionId": "e1ad9495-4d46-4e76-b87d-24ce173d507e",
+    "triggerCount": 1,
+    "tags": [
+        {
+            "createdAt": "2025-01-05T15:55:51.742Z",
+            "updatedAt": "2025-01-05T15:55:51.742Z",
+            "id": "ptawwpty3f4CZA4X",
+            "name": "public"
+        }
+    ],
+    "repo_owner": "neoalienson",
+    "repo_name": "n8n-workflows",
+    "repo_path": "workflows"
+}
